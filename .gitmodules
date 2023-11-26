@@ -1,0 +1,6 @@
+[submodule "kvasir"]
+	path = kvasir
+	url = https://github.com/kvasir-io/Kvasir_SDK.git
+[submodule "chip"]
+	path = chip
+	url = https://github.com/kvasir-io/chip_rp2040.git
