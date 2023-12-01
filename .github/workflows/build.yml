@@ -7,6 +7,8 @@ jobs:
 
       env:
         ROOT_DIR: ${{ github.workspace }}
+        EXTRA_PACKAGES:
+        TRIZEN_EXTRA_PACKAGES:
 
       name: docker
       steps:
@@ -16,7 +18,10 @@ jobs:
             submodules: 'recursive'
 
         - name: Build the Docker image
-          run: docker build ./ --file ./kvasir/Dockerfile --tag kvasir_fw_build
+          run: docker build ./ \
+               --build-arg="PACKMANEXTRAPACKAGES=$EXTRA_PACKAGES" \
+               --build_arg="TRIZENEXTRAPACKAGES=$TRIZEN_EXTRA_PACKAGES" \
+               --file ./kvasir/Dockerfile --tag kvasir_fw_build
 
         - name: Run Docker
           run: docker run -v ./:/project kvasir_fw_build

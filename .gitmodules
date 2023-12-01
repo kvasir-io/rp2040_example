@@ -4,3 +4,6 @@
 [submodule "chip"]
 	path = chip
 	url = https://github.com/kvasir-io/chip_rp2040.git
+[submodule "kvasir_devices"]
+	path = kvasir_devices
+	url = https://github.com/kvasir-io/kvasir_devices.git
