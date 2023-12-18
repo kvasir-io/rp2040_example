@@ -49,7 +49,7 @@ jobs:
             submodules: 'recursive'
 
         - name: Download firmware
-          uses: actions/download-artifact@v2
+          uses: actions/download-artifact@v3
           with:
             name: firmware
             path: build
