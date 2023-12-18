@@ -10,9 +10,9 @@ jobs:
         EXTRA_PACKAGES:
         TRIZEN_EXTRA_PACKAGES:
 
-      name: docker
+      name: build
       steps:
-        - name: checkout repo
+        - name: Checkout repo
           uses: actions/checkout@v3
           with:
             submodules: 'recursive'
@@ -23,7 +23,7 @@ jobs:
         - name: Run Docker
           run: docker run -v ./:/project kvasir_fw_build
 
-        - name: upload firmware
+        - name: Upload firmware
           uses: actions/upload-artifact@v3
           with:
             name: firmware
@@ -34,3 +34,30 @@ jobs:
               docker_build/*.uf2
               docker_build/*.lst
               docker_build/*.map
+
+    test-on-wokwi:
+
+      runs-on: ubuntu-latest
+
+      needs: build
+
+      name: test
+      steps:
+        - name: Checkout repo
+          uses: actions/checkout@v3
+          with:
+            submodules: 'recursive'
+
+        - name: Download firmware
+          uses: actions/download-artifact@v2
+          with:
+            name: firmware
+            path: build
+
+        - name: Test the binary on Wokwi
+          uses: wokwi/wokwi-ci-action@v1
+          with:
+            token: ${{ secrets.WOKWI_CLI_TOKEN }}
+            path: /
+            timeout: 1000 # ms
+            scenario: 'blink.test.yaml'

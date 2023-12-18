@@ -10,5 +10,22 @@ using Clock          = HW::SystickClock;
 using StackProtector = Kvasir::StackProtector<>;
 using FaultHandler   = Kvasir::Fault::Handler<HW::Fault_CleanUpAction>;
 
-using Startup = Kvasir::Startup::
-  Startup<HW::ClockSettings, Clock, HW::ComBackend, FaultHandler, StackProtector, HW::PinConfig>;
+struct DmaConfig {
+    static constexpr auto numberOfChannels     = 1;
+    static constexpr auto callbackFunctionSize = 8;
+};
+
+using Dma = Kvasir::DMA::DmaBase<DmaConfig>;
+
+using Uart
+  = Kvasir::UART::UartBehavior<HW::UartConfig, Dma, Dma::Channel::ch0, Dma::Priority::low, 512>;
+
+using Startup = Kvasir::Startup::Startup<
+  HW::ClockSettings,
+  Clock,
+  HW::ComBackend,
+  FaultHandler,
+  StackProtector,
+  HW::PinConfig,
+  Dma,
+  Uart>;

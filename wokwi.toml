@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = "build/release_flash.uf2"
+elf = "build/release.elf"
