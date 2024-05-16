@@ -10,7 +10,7 @@ static void print(Buffer& buffer, std::string_view s) {
     std::transform(s.begin(), s.end(), buffer.begin(), [](auto x) {
         return static_cast<std::byte>(x);
     });
-    UC_LOG_D("{}",s);
+    UC_LOG_D("{}", s.substr(0, s.size() - 1));
     Uart::send_nocopy(buffer);
 }
 
@@ -29,7 +29,6 @@ int main() {
             } else {
                 print(buffer, "LED on\n");
                 apply(set(HW::Pin::led{}));
-
             }
             on = !on;
         }
