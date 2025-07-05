@@ -7,8 +7,6 @@ jobs:
 
       env:
         ROOT_DIR: ${{ github.workspace }}
-        EXTRA_PACKAGES:
-        TRIZEN_EXTRA_PACKAGES:
 
       name: build
       steps:
@@ -18,10 +16,10 @@ jobs:
             submodules: 'recursive'
 
         - name: Build the Docker image
-          run: docker build ./ --build-arg="PACKMANEXTRAPACKAGES=$EXTRA_PACKAGES" --build-arg="TRIZENEXTRAPACKAGES=$TRIZEN_EXTRA_PACKAGES" --file ./kvasir/Dockerfile --tag kvasir_fw_build
+          run: ./kvasir/scripts/create_container.sh
 
         - name: Run Docker
-          run: docker run -v ./:/project kvasir_fw_build
+          run: ./kvasir/scripts/run_container.sh
 
         - name: Upload firmware
           uses: actions/upload-artifact@v4
