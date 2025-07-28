@@ -15,9 +15,6 @@ jobs:
           with:
             submodules: 'recursive'
 
-        - name: Build the Docker image
-          run: ./kvasir/scripts/create_container.sh
-
         - name: Run Docker
           run: ./kvasir/scripts/run_container.sh
 
